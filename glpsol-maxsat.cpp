@@ -78,32 +78,32 @@ BODY:
         int64_t cost = 1;
         if (isWCNF) fscanf(file, " %"PRId64, &cost);
 
-	std::vector<int> lits;
+        std::vector<int> lits;
         while (1) {
             int lit;
             fscanf(file, "%d", &lit);
             if (lit == 0) break;
-	    lits.push_back(lit);
+            lits.push_back(lit);
         }
 
         if (cost != top && lits.size() == 1) {
             int lit = lits[0];
             if (lit > 0) {
-	        int v = lit;
-	        // obj += cost*(1 - v)
+                int v = lit;
+                // obj += cost*(1 - v)
                 glp_set_obj_coef(prob, 0, glp_get_obj_coef(prob, 0) + cost);
                 glp_set_obj_coef(prob, v, glp_get_obj_coef(prob, v) - cost);
             } else {
-	        int v = - lit;
-		// obj += cost*v
+                int v = - lit;
+                // obj += cost*v
                 glp_set_obj_coef(prob, v, glp_get_obj_coef(prob, v) + cost);
-	    }
-	    continue;
-	}
+            }
+            continue;
+        }
 
         std::vector<int> inds;
         std::vector<double> vals;
-	char name[128];
+        char name[128];
 
         if (cost != top) {
             int r = glp_add_cols(prob, 1);
@@ -115,8 +115,8 @@ BODY:
             vals.push_back(1);
         }
 
-        int rhs = 1;
-	for (std::vector<int>::iterator j = lits.begin(); j != lits.end(); j++) {
+        int lb = 1;
+        for (std::vector<int>::iterator j = lits.begin(); j != lits.end(); j++) {
             int lit = *j;
             if (lit > 0) {
                 inds.push_back(lit);
@@ -124,14 +124,14 @@ BODY:
             } else {
                 inds.push_back(-lit);
                 vals.push_back(-1);
-                rhs--;
+                lb--;
             }
         }
 
-	int row = glp_add_rows(prob, 1);
+        int row = glp_add_rows(prob, 1);
         snprintf(name, sizeof(name), "c%d", i);
         glp_set_row_name(prob, row, name);
-        glp_set_row_bnds(prob, row, GLP_LO, rhs, 0.0);
+        glp_set_row_bnds(prob, row, GLP_LO, lb, 0.0);
         glp_set_mat_row(prob, row, inds.size(), inds.data() - 1, vals.data() - 1);
     }
 

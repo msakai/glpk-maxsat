@@ -143,6 +143,7 @@ static
 int output_comment(void *info, const char *s)
 {
     printf("c %s", s);
+    fflush(stdout);
     return 1;
 }
 
@@ -171,6 +172,7 @@ void intopt_callback(glp_tree *tree, void *info)
             glp_prob *prob = glp_ios_get_prob(tree);
             int64_t val = (int64_t)glp_mip_obj_val(prob);
             printf("o %"PRId64 "\n", val);
+            fflush(stdout);
         }
         break;
     default:
@@ -248,6 +250,7 @@ int main(int argc, char **argv)
         exit(1);
     }
 
+    fflush(stdout);
     glp_delete_prob(prob);
     return 0;
 }

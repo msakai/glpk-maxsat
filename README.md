@@ -10,7 +10,7 @@ LP-based branch-and-bound approach.
 Usage
 -----
 
-    glpk-maxsat [file.cnf|file.wcnf]
+    glpsol-maxsat [file.cnf|file.wcnf]
 
 About GLPK
 ----------

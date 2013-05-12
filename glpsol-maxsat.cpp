@@ -34,6 +34,7 @@ POSSIBILITY OF SUCH DAMAGE.
 #include <stdio.h>
 #include <stdint.h>
 #include <inttypes.h>
+#include <math.h>
 #include <glpk.h>
 #include <vector>
 
@@ -172,7 +173,7 @@ void intopt_callback(glp_tree *tree, void *info)
     case GLP_IBINGO: // Better integer solution found
         {
             glp_prob *prob = glp_ios_get_prob(tree);
-            int64_t val = (int64_t)glp_mip_obj_val(prob);
+            int64_t val = (int64_t)llround(glp_mip_obj_val(prob));
             printf("o %"PRId64 "\n", val);
             fflush(stdout);
         }

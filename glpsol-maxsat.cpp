@@ -37,6 +37,7 @@ POSSIBILITY OF SUCH DAMAGE.
 #include <math.h>
 #include <glpk.h>
 #include <vector>
+#include <map>
 
 static
 int read_wcnf(glp_prob *prob, const char *filename)
@@ -118,16 +119,23 @@ BODY:
             vals.push_back(1);
         }
 
+        // Because glp_set_mat_row() does not allow duplicate column indices,
+        // we need to sum up coefficients of a same variable.
+        std::map<int,int> coeffs;
         int lb = 1;
         for (std::vector<int>::iterator j = lits.begin(); j != lits.end(); j++) {
             int lit = *j;
             if (lit > 0) {
-                inds.push_back(lit);
-                vals.push_back(1);
+                coeffs[lit] += 1;
             } else {
-                inds.push_back(-lit);
-                vals.push_back(-1);
+                coeffs[-lit] -= 1;
                 lb--;
+            }
+        }
+        for (std::map<int,int>::iterator j = coeffs.begin(); j != coeffs.end(); j++) {
+            if (j->second) {
+                inds.push_back(j->first);
+                vals.push_back(j->second);
             }
         }
 

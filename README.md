@@ -9,6 +9,12 @@ Max-SAT frontend for GLPK (GNU Linear Programming Kit)
 It convert problems of MAX-SAT families into MIP and solve them using
 LP-based branch-and-bound approach.
 
+Build
+-----
+
+    ./waf configure
+    ./waf build
+
 Usage
 -----
 

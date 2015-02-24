@@ -1,6 +1,8 @@
 glpk-maxsat
 ===========
 
+[![Build Status](https://secure.travis-ci.org/msakai/glpk-maxsat.png?branch=master)](http://travis-ci.org/msakai/glpk-maxsat)
+
 Max-SAT frontend for GLPK (GNU Linear Programming Kit)
 <http://www.gnu.org/software/glpk/>.
 

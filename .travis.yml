@@ -1,11 +1,41 @@
 language: cpp
 sudo: false
 
+env:
+  global:
+    # COVERITY_SCAN_TOKEN
+    # ** specific to your project **
+    secure: "h1BvDsUg9/eMcCggeUInvq05VTlSP75I/oukXxF7ZBffgBgLJxFM/EHPT+i7Zw6rvGmJINwCw769plpUogOqVRfd0pUwjWi9SXPRQFHAGQb84IoBvmX1Xi6qfWlNQzIGB8p9Sd+s1XHUOibyUfRdFkBcHFR3H7fmV8AuywC/rzs="
+
 addons:
   apt:
     packages:
     - libglpk-dev
     - python2.7
+
+  coverity_scan:
+    # GitHub project metadata
+    # ** specific to your project **
+    project:
+      name: msakai/glpk-maxsat
+      version: 0.1.0
+      description: Max-SAT frontend for GLPK
+
+    # Where email notification of build analysis results will be sent
+    notification_email: masahiro.sakai@gmail.com
+
+    # Commands to prepare for build_command
+    # ** likely specific to your build **
+    build_command_prepend: ./waf configure
+
+    # The command that will be added as an argument to "cov-build" to compile your project for analysis,
+    # ** likely specific to your build **
+    build_command: ./waf build
+
+    # Pattern to match selecting branches that will run analysis. We recommend leaving this set to 'coverity_scan'.
+    # Take care in resource usage, and consider the build frequency allowances per
+    #   https://scan.coverity.com/faq#frequency
+    branch_pattern: coverity_scan
 
 compiler: 
  - gcc 

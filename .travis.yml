@@ -1,13 +1,15 @@
-language: cpp 
+language: cpp
+sudo: false
+
+addons:
+  apt:
+    packages:
+    - libglpk-dev
+    - python2.7
 
 compiler: 
  - gcc 
  - clang 
-
-before_install: 
- - travis_retry sudo apt-get update
- - sudo apt-get install libglpk-dev
- - sudo apt-get install python2.7
 
 script: 
  - ./waf configure
